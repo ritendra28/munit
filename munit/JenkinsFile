@@ -8,7 +8,11 @@ pipeline {
     WORKER = "Micro"
   }
   stages {
-    
+    stage('Build') {
+      steps {
+            bat 'mvn -B -U -e -V clean -DskipTests package'
+      }
+    }
      stage('Deploy Development') {
       environment {
         ENVIRONMENT = 'Sandbox'
