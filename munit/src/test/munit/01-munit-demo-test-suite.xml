@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="01-munit-demo-test-suite.xml" />
+	<munit:test name="01-munit-demo-test-suite-01-munit-demoFlowTest" doc:id="bb9778d8-f80b-44c7-9afa-7b07c0b007b4" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="57583056-ba16-4042-9a77-e886317eb286" >
+				<munit:attributes value="#[{queryParams: {'url_key' : 'payload_1'}} ]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to 01-munit-demoFlow" doc:id="9bcb49dd-aa86-4a44-9fef-5275ba4e2483" name="01-munit-demoFlow"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="eab6cf74-cf0e-455a-a5d8-96ee79cef239" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="01-munit-demo-test-suiteTest" doc:id="ce52d272-119a-4cec-bab4-736fc2b26b99" >
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="8e96d1e4-75b3-43f0-a6fa-5d2f7ae92490" >
+				<munit:attributes value="#[{queryParams: {'url_key' : 'payload_1'}} ]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to 01-munit-demoFlow" doc:id="0f9a1147-f40c-43d7-883e-abb241b38bcc" name="01-munit-demoFlow" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="5bef963a-1957-49f2-8ac1-1cd33e05ab5d" processor="flow-ref" atLeast="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="subflow1" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="e7a54ef4-b259-4c5d-90b9-5905cb3d03eb" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="subflow1" attributeName="name" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
